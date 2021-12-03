@@ -6,7 +6,7 @@ import csv
 df = pd.read_csv('Promocode.csv')
 List = ['471293785610449' , '471293247910445']
 
-f = open('VALID CODES.txt','a', newline='')
+f = open('VALID CODES.txt','a')
 f2 = open('INVALID CODES.txt','a')
 
 
@@ -14,7 +14,7 @@ i = 0
 
 for x in List:
   with sync_playwright() as p:
-     browser = p.firefox.launch(headless=True)
+     browser = p.firefox.launch(headless=False)
 
      # create a new incognito browser context
      context = browser.new_context()
@@ -69,10 +69,11 @@ for x in List:
      #The ++
      i = i + 1
      time.sleep(3)
-     
+     visible = bool(page.is_visible("div[role=\"alert\"]:has-text(\"Please check the data entered and\")"))
      #the instructions to check the code validity
-     if page.is_visible('div[role=\"alert\"]') is True:
+     if visible is True:
          f2.write(Promo)
+         f2.write('\n')
          context.close()
          browser.close()
          b = i-1
@@ -81,6 +82,7 @@ for x in List:
          
      else:
          f.write(Promo)
+         f.write('\n')
          context.close()
          browser.close()
          b = i-1
