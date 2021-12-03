@@ -4,16 +4,17 @@ import pandas as pd
 import csv
 
 df = pd.read_csv('Promocode.csv')
-List = df['Promo code'].to_list()
+List = ['471293785610449' , '471293247910445']
 
-f = open('VALID CODES.txt','a')
+f = open('VALID CODES.txt','a', newline='')
+f2 = open('INVALID CODES.txt','a')
 
 
 i = 0
 
 for x in List:
   with sync_playwright() as p:
-     browser = p.firefox.launch()
+     browser = p.firefox.launch(headless=True)
 
      # create a new incognito browser context
      context = browser.new_context()
@@ -55,25 +56,36 @@ for x in List:
      page.click(".sc-kDTinF.dwAnLX")
      print(6)
      Promo = str(List[i])
-     print('wait for input to be filled')
+     print('Wait for input to be filled')
+
+
+     #Adding the promocode
      page.fill('[aria-label=\"input\"]', Promo)
-     print('filled')
+     print('Filled')
 
      page.click("text=Apply")
-     print('Finished')
+     print('Applied')
      
+     #The ++
      i = i + 1
      time.sleep(3)
      
+     #the instructions to check the code validity
      if page.is_visible('div[role=\"alert\"]') is True:
+         f2.write(Promo)
          context.close()
          browser.close()
-         print("Enter succesfully =" ,i)
+         b = i-1
+         print("Promocodes checked =" ,i)
+         print('i to put =',b)
+         
      else:
          f.write(Promo)
          context.close()
          browser.close()
-         print("Enter succesfully =" ,i)
+         b = i-1
+         print("Promocodes checked =" ,i)
+         print('i to put =',b)
 
         
 
