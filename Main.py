@@ -4,7 +4,7 @@ import pandas as pd
 import csv
 
 df = pd.read_csv('Promocode.csv')
-List = ['471293785610449' , '471293247910445']
+List = df['Promo code'].to_list()
 
 f = open('VALID CODES.txt','a')
 f2 = open('INVALID CODES.txt','a')
