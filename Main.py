@@ -14,7 +14,7 @@ i = 0
 
 for x in List:
   with sync_playwright() as p:
-     browser = p.firefox.launch(headless=False)
+     browser = p.firefox.launch()
 
      # create a new incognito browser context
      context = browser.new_context()
