@@ -8,9 +8,10 @@ List = df['Promo code'].to_list()
 
 f = open('VALID CODES.txt','a')
 f2 = open('INVALID CODES.txt','a')
-
-
-i = 0
+f3 = open('I.txt','w+')
+i=0
+i = f3.read()
+i = int(i)
 
 for x in List:
   with sync_playwright() as p:
