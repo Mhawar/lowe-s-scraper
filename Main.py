@@ -58,8 +58,11 @@ for x in List:
              page.click('text=View Cart , #plp-atc')
              page.mouse.move(56, 200)
              print(4)
-             os.remove("C:\Users\mhawa\Desktop\Work\Projects\Lowe's scraper\screenshot.png")
-
+             if os.path.isfile("C:\Users\mhawa\Desktop\Work\Projects\Lowe's scraper\screenshot.png"):
+                 os.remove("C:\Users\mhawa\Desktop\Work\Projects\Lowe's scraper\screenshot.png")
+                 print("Done")
+             else:
+                 print('The file doesnt exist')
              page.click('#app > div.sc-fMfAsl.kpyQUO > div.sc-pVTFL.iPjCUm.sc-dlVxhl.sc-ezDxBL.dvqZOE.HXcio > div > div.sc-kDTinF.dwAnLX > div > div > div > div.sc-pVTFL.iPjCUm > div.sc-kSWJqS.bcCgiM > div > a')
              print(5)
              page.mouse.move(90, 133)
