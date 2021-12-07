@@ -6,14 +6,16 @@ import csv
 
 df = pd.read_csv('Promocode.csv')
 List = df['Promo code'].to_list()
-
+df1 = pd.read_csv('i.csv')
+num = df1['Saved numbers'].to_list()
+c=num[0]
 f = open('VALID CODES.txt','a')
 f2 = open('INVALID CODES.txt','a')
 
-i=78
+i=int(c)
 
 for x in List:
-     time.sleep(10)
+     time.sleep(30)
      with sync_playwright() as p:
          print('open browser')
          browser = p.firefox.launch()
@@ -22,7 +24,7 @@ for x in List:
          context.close()
          browser.close()
          print('close the browser')
-     time.sleep(30)
+     time.sleep(1)
      for a in range(5):
          with sync_playwright() as p:
              print('open the browser for checking')
@@ -59,8 +61,13 @@ for x in List:
              page.screenshot(path="screenshot.png")
              Cart= bool(page.is_visible('text=View Cart'))
              if Cart is False:
+                 print('View Cart is invisible, See the screenshot for referrence')
+
+                 time.sleep(1)
                  context.close()
                  browser.close()
+                 time.sleep(100)
+                 break
              else:  
                  page.click('text=View Cart')
                  page.mouse.move(56, 200)
@@ -69,7 +76,7 @@ for x in List:
                      os.remove("C:\Desktop\Work\Projects\Lowe's scraper\screenshot.png")
                      print("Done")
                  else:
-                     print('The file doesnt exist')
+                     print('')
                  page.click('#app > div.sc-fMfAsl.kpyQUO > div.sc-pVTFL.iPjCUm.sc-dlVxhl.sc-ezDxBL.dvqZOE.HXcio > div > div.sc-kDTinF.dwAnLX > div > div > div > div.sc-pVTFL.iPjCUm > div.sc-kSWJqS.bcCgiM > div > a')
                  print(5)
                  page.mouse.move(90, 133)
@@ -98,8 +105,11 @@ for x in List:
                      f2.write('\n')
                      context.close()
                      browser.close()
-                     b = i
+                     b = str(i)
+                     df1.loc[0] = [b]
+                     df1.drop(index=0)
                      print("Promocodes checked =" ,i)
+                     print(Promo+' = Invalid')
                      print('i to put =',b)
          
                  else:
@@ -107,8 +117,11 @@ for x in List:
                      f.write('\n')
                      context.close()
                      browser.close()
-                     b = i
+                     b = str(i)
+                     df1.loc[0] = [b]
+                     df1.drop(index=0)
                      print("Promocodes checked =" ,i)
+                     print(Promo+' = Valid')
                      print('i to put =',b)
 
         
