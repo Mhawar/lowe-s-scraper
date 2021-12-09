@@ -2,17 +2,20 @@ from playwright.sync_api import sync_playwright
 import time
 import pandas as pd
 import os
-import csv
+import pickle
+
 
 df = pd.read_csv('Promocode.csv')
 List = df['Promo code'].to_list()
-df1 = pd.read_csv('i.csv')
-num = df1['Saved numbers'].to_list()
-c=num[0]
+
+
+
 f = open('VALID CODES.txt','a')
 f2 = open('INVALID CODES.txt','a')
+ilist=pickle.load(open("i.dat","rb"))
 
-i=int(c)
+
+i=ilist
 
 for x in List:
      time.sleep(30)
@@ -77,10 +80,11 @@ for x in List:
                      print("Done")
                  else:
                      print('')
-                 page.click('#app > div.sc-fMfAsl.kpyQUO > div.sc-pVTFL.iPjCUm.sc-dlVxhl.sc-ezDxBL.dvqZOE.HXcio > div > div.sc-kDTinF.dwAnLX > div > div > div > div.sc-pVTFL.iPjCUm > div.sc-kSWJqS.bcCgiM > div > a')
+                
+                 page.click("text=Add Promotional Code")
                  print(5)
                  page.mouse.move(90, 133)
-    
+                
 
                  page.click(".sc-kDTinF.dwAnLX")
                  print(6)
@@ -106,8 +110,7 @@ for x in List:
                      context.close()
                      browser.close()
                      b = str(i)
-                     df1.loc[0] = [b]
-                     df1.drop(index=0)
+                     pickle.dump(i, open("i.dat" , "wb"))
                      print("Promocodes checked =" ,i)
                      print(Promo+' = Invalid')
                      print('i to put =',b)
@@ -118,8 +121,8 @@ for x in List:
                      context.close()
                      browser.close()
                      b = str(i)
-                     df1.loc[0] = [b]
-                     df1.drop(index=0)
+                     pickle.dump(i, open("i.dat" , "wb"))
+                     f.close()
                      print("Promocodes checked =" ,i)
                      print(Promo+' = Valid')
                      print('i to put =',b)
