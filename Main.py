@@ -5,25 +5,23 @@ import os
 import pickle
 import schedule
 
-
+df = pd.read_csv('Promocode.csv')
+List = df['Promo code'].to_list()
 def loop():
-    df = pd.read_csv('Promocode.csv')
-    List = df['Promo code'].to_list()
     f = open('VALID CODES.txt','a')
     f2 = open('INVALID CODES.txt','a')
     ilist=pickle.load(open("i.dat","rb"))
     i=ilist
-    for x in List:
-        with sync_playwright() as p:
-            print('open browser')
-            browser = p.firefox.launch()
-            context = browser.new_context()
-            page = context.new_page()
-            context.close()
-            browser.close()
-            print('close the browser')
+    with sync_playwright() as p:
+        print('open browser')
+        browser = p.firefox.launch()
+        context = browser.new_context()
+        page = context.new_page()
+        context.close()
+        browser.close()
+        print('close the browser')
         time.sleep(1)
-        for a in range(5):
+    for a in range(10):
             with sync_playwright() as p:
                 print('Open the browser for checking')
                 browser = p.firefox.launch()
@@ -53,7 +51,7 @@ def loop():
                 print('Click the cart button')
                 page.click('#add-to-cart-button-5002068535')
                 page.mouse.move(40, 103)
-        
+
                 
                 time.sleep(4)
                 print('taking the screenshot')
@@ -95,7 +93,7 @@ def loop():
 
                     page.click("text=Apply")
                     print('Clicking Apply')
-        
+
                     #The ++
                     i = i + 1
                     time.sleep(3)
@@ -124,5 +122,6 @@ def loop():
                         print(Promo+' = Valid')
                         print('i to put =',b)
 
-loop()
+for promo in List:
+ loop()
 
